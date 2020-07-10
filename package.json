@@ -20,11 +20,9 @@
       "last 1 safari version"
     ]
   },
-  "main": "packages/simple-nlp/index.tx",
-  "scripts": {},
-  "devDependencies": {
-    "bl": "^4.0.0",
-    "cross-spawn": "^7.0.1"
-  },
-  "dependencies": {}
+  "main": "src/index.tx",
+  "dependencies": {
+    "bl": "^4.0.2",
+    "cross-spawn": "^7.0.3"
+  }
 }
