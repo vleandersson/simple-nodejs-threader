@@ -1,8 +1,14 @@
 import { spawn } from "cross-spawn";
-import { BufferList } from "bl";
+import BufferList from "bl";
 import { performance } from "perf_hooks";
 
 import { start, info, success, error } from "./utils/trace";
+
+interface Process {
+  child?: unknown;
+}
+
+type PromiseWithChild = Promise<unknown> & { child?: unknown };
 
 /**
  * Constructor
@@ -10,11 +16,11 @@ import { start, info, success, error } from "./utils/trace";
  */
 export class ProcessManager {
   private taskName: string;
-  private processes: string[];
+  private processes: Process[];
   private startTime: number;
-  private endTime: number;
+  private endTime: number | undefined;
 
-  constructor(taskName) {
+  constructor(taskName: string) {
     start(`Init ${taskName} task`);
     this.taskName = taskName;
     this.processes = [];
@@ -24,7 +30,7 @@ export class ProcessManager {
   /**
    * @param  {...process} processes
    */
-  public async queue(...processes) {
+  public async queue(...processes: Process[]) {
     const filteredProcesses = processes.filter((p) => Boolean(p));
     this.processes.push(...filteredProcesses);
     try {
@@ -49,7 +55,7 @@ export class ProcessManager {
     }
   }
 
-  private onError(err) {
+  private onError(err: string) {
     error(err);
     error(
       `An error occurred in ${this.taskName}. Killing all ${this.processes.length} processes...`
@@ -85,11 +91,11 @@ export class ProcessManager {
    * Wraps spawned processes in a promise, so that the stream can be managed
    * with js async functionality
    */
-  public static promiseSpawn(...args) {
-    const child = spawn(...args);
-    const stderr = child.stderr ? new BufferList() : "";
+  public static promiseSpawn(command: string, ...args: any[]) {
+    const child = spawn(command, ...args);
+    const stderr = child.stderr ? new BufferList() : null;
 
-    if (child.stderr) {
+    if (child.stderr && stderr) {
       child.stderr.on("data", (data) => {
         stderr.append(data);
       });
@@ -103,15 +109,15 @@ export class ProcessManager {
           resolve();
         } else {
           const err = new Error(`child exited with code ${code}`) as Error & {
-            code: string;
-            stderr: string;
+            code: number | null;
+            stderr: BufferList | null;
           };
           err.code = code;
           err.stderr = stderr;
           reject(err);
         }
       });
-    });
+    }) as PromiseWithChild;
 
     promise.child = child;
 

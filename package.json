@@ -1,28 +1,27 @@
 {
   "author": "Viktor Leandersson",
   "name": "simple-nodejs-threader",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.0-alpha.1",
   "description": "A simple collection of multi-threading helpers for NodeJs",
   "keywords": [
     "Simple NodeJs multi-threading"
   ],
   "license": "MIT",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
   },
-  "main": "src/index.tx",
-  "dependencies": {
+  "peerDependencies": {
     "bl": "^4.0.2",
     "cross-spawn": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/bl": "^2.1.0",
+    "@types/cross-spawn": "^6.0.2",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.9.7",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
   }
 }
