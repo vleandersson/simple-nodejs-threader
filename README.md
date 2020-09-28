@@ -2,7 +2,7 @@
 
 A basic package for multithreading (multiple processes) in NodeJs
 
-## Why?
+## Why
 
 To simplify `node` build processes, used for better development experience or to spead up build pipelines, by utilizing node's multicore processing.
 
@@ -13,44 +13,42 @@ To simplify `node` build processes, used for better development experience or to
 
 ## Getting started
 
-1. Create a new Process manager 
+1. Create a new Process manager
 
-```
+```typescript
 const manager = new ProcessManager(taskName);
 ```
 
-2. Create one or more processes that can run in parallell
+1. Create one or more processes that can run in parallell
 
-```
+```typescript
 const backendProcess = ProcessManager.promiseSpawn(
-  'yarn start:backend',
+  "yarn start:backend",
   [processFlags],
   {
-    stdio: 'inherit',
-    shell: true
+    stdio: "inherit",
+    shell: true,
   }
 );
 
 const frontendProcess = ProcessManager.promiseSpawn(
-  'yarn start:frontend',
+  "yarn start:frontend",
   [processFlags],
   {
-    stdio: 'inherit',
-    shell: true
+    stdio: "inherit",
+    shell: true,
   }
 );
 ```
 
-3. Add processes to the manager queue
+1. Add processes to the manager queue
 
-```
+```typescript
 manager.queue(frontendProcess, backendProcess);
 ```
 
-4. Await for completion
+1. Await for completion
 
-```
+```typescript
 await manager.complete();
 ```
-
-
