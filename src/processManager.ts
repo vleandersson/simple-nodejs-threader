@@ -57,13 +57,14 @@ export class ProcessManager {
 
   private onError(err: string) {
     error(err);
-    error(
-      `An error occurred in ${this.taskName}. Killing all ${this.processes.length} processes...`
-    );
 
     const processesToKill = this.processes
       .filter((p) => Boolean(p))
       .map((p) => p.child);
+
+    error(
+      `An error occurred in ${this.taskName}. Killing all ${processesToKill.length} processes...`
+    );
 
     this.killProcesses(processesToKill);
     success("Processes killed");
@@ -124,18 +125,15 @@ export class ProcessManager {
     return promise;
   }
 
-  public static addFlags(
-    args: Record<string, unknown>,
-    processFlags: string[]
-  ) {
-    const _processFlags = processFlags;
+  public static addFlags(flags: Record<string, string>) {
+    const processFlags: string[] = [];
 
-    Object.keys(args).forEach((key) => {
-      if (args[key]) {
-        _processFlags.push(`--${key}`);
+    Object.keys(flags).forEach((key) => {
+      if (flags[key]) {
+        processFlags.push(`--${key}`);
       }
     });
 
-    return _processFlags;
+    return processFlags;
   }
 }

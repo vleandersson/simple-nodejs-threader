@@ -52,3 +52,20 @@ manager.queue(frontendProcess, backendProcess);
 ```typescript
 await manager.complete();
 ```
+
+## Utils
+
+### addFlags
+
+Convert an object into Node friendly process flags.
+
+#### Arguments
+
+- flags [`Record<string, string>`]
+
+#### Usage
+
+```typescript
+const flagArray = addFlags({ argOne: "hello", argTwo: "world" });
+// flagArray: [--hello, --world]
+```
