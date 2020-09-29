@@ -1,7 +1,7 @@
 {
   "author": "Viktor Leandersson",
   "name": "simple-nodejs-threader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple collection of multi-threading helpers for NodeJs",
   "keywords": [
     "Simple NodeJs multi-threading"
