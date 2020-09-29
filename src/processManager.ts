@@ -1,14 +1,17 @@
 import { spawn } from "cross-spawn";
 import BufferList from "bl";
 import { performance } from "perf_hooks";
+import { ChildProcessWithoutNullStreams } from "child_process";
 
 import { start, info, success, error } from "./utils/trace";
 
 interface Process {
-  child?: unknown;
+  child: ChildProcessWithoutNullStreams;
 }
 
-type PromiseWithChild = Promise<unknown> & { child?: unknown };
+type PromiseWithChild = Promise<void> & {
+  child: ChildProcessWithoutNullStreams;
+};
 
 /**
  * Constructor
