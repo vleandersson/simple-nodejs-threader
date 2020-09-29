@@ -16,10 +16,10 @@ To simplify `node` build processes, used for better development experience or to
 1. Create a new Process manager
 
 ```typescript
-const manager = new ProcessManager(taskName);
+const manager = new ProcessManager("My task name");
 ```
 
-1. Create one or more processes that can run in parallell
+1. Create one or more processes that can run in parallel
 
 ```typescript
 const backendProcess = ProcessManager.promiseSpawn(
@@ -66,6 +66,6 @@ Convert an object into Node friendly process flags.
 #### Usage
 
 ```typescript
-const flagArray = addFlags({ argOne: "hello", argTwo: "world" });
-// flagArray: [--hello, --world]
+const processFlags = addFlags({ argOne: "hello", argTwo: "world" });
+processFlags; // [--hello, --world]
 ```

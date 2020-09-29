@@ -16,6 +16,9 @@ type PromiseWithChild = Promise<void> & {
 /**
  * Constructor
  * @param {string} taskName
+ * @example```typescript
+ * const manager = new ProcessManager('My Task Name');
+ * ```
  */
 export class ProcessManager {
   private taskName: string;
@@ -32,6 +35,9 @@ export class ProcessManager {
 
   /**
    * @param  {...process} processes
+   * @example ```typescript
+   * manager.queue(process1, process2);
+   * ```
    */
   public async queue(...processes: Process[]) {
     const filteredProcesses = processes.filter((p) => Boolean(p));
@@ -44,6 +50,11 @@ export class ProcessManager {
     }
   }
 
+  /**
+   * @example```typescript
+   *await manager.complete();
+   *```
+   */
   public async complete() {
     try {
       await Promise.all(this.processes);
@@ -94,6 +105,13 @@ export class ProcessManager {
   /**
    * Wraps spawned processes in a promise, so that the stream can be managed
    * with js async functionality
+   * @example```typescript
+   * const backendProcess = ProcessManager.promiseSpawn(
+   * "yarn start:backend",
+   * [processFlags],
+   * { stdio: "inherit", shell: true }
+   *);
+   *```
    */
   public static promiseSpawn(command: string, ...args: any[]) {
     const child = spawn(command, ...args);
@@ -128,11 +146,19 @@ export class ProcessManager {
     return promise;
   }
 
-  public static addFlags(flags: Record<string, string>) {
+  /**
+   * Converts an args object to an array of process flags
+   * @example ```typescript
+   * const processFlags = addFlags({ argOne: "hello", argTwo: "world" });
+   * processFlags // [--hello, --world]
+   * ```
+   * @param args Record of string, string
+   */
+  public static addFlags(args: Record<string, string>) {
     const processFlags: string[] = [];
 
-    Object.keys(flags).forEach((key) => {
-      if (flags[key]) {
+    Object.keys(args).forEach((key) => {
+      if (args[key]) {
         processFlags.push(`--${key}`);
       }
     });
