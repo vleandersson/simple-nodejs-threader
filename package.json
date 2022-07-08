@@ -13,12 +13,12 @@
     "build": "webpack --config webpack.config.js"
   },
   "peerDependencies": {
-    "bl": "^4.0.2",
     "cross-spawn": "^7.0.3"
   },
   "devDependencies": {
     "@types/bl": "^2.1.0",
     "@types/cross-spawn": "^6.0.2",
+    "bl": "^4.0.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.9.7",
     "webpack": "^4.39.1",
